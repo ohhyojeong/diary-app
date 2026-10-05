@@ -1,0 +1,80 @@
+/* 전체 컨테이너 */
+.diary-container {
+  max-width: 400px;
+  margin: 60px auto;
+  padding: 0 16px;
+  font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+  text-align: center;
+}
+
+.diary-title {
+  font-size: 2rem;
+  color: #3b3b4f;
+  margin-bottom: 24px;
+}
+
+/* 로그인 / 회원가입 박스 */
+.auth-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 28px 24px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.auth-title {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #4b5563;
+}
+
+/* 입력창 */
+.auth-input {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+/* 버튼 */
+.auth-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary {
+  background: #6366f1;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.btn-secondary {
+  background: #f3f4f6;
+  color: #374151;
+}
+.btn-secondary:hover {
+  background: #e5e7eb;
+}

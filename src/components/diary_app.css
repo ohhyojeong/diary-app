@@ -1,0 +1,118 @@
+/* 일기 작성/수정/상세 화면은 조금 넓게 */
+.diary-write-box,
+.diary-detail-box,
+.diary-list-box {
+  text-align: left;
+}
+
+.diary-container:has(.diary-write-box),
+.diary-container:has(.diary-list-box),
+.diary-container:has(.diary-detail-box) {
+  max-width: 560px;
+}
+
+/* 목록 */
+.diary-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.diary-item:hover {
+  background: #eef2ff;
+}
+
+.diary-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  cursor: pointer;
+}
+
+.diary-item-title {
+  font-weight: 600;
+  color: #374151;
+}
+
+.diary-item-date {
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.diary-item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* 작은 버튼 (수정/삭제) */
+.btn-small {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-small:hover {
+  background: #f3f4f6;
+}
+
+.btn-danger {
+  color: #dc2626;
+  border-color: #fecaca;
+}
+
+.btn-danger:hover {
+  background: #fef2f2;
+}
+
+/* 상세 보기 */
+.diary-detail-title {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #374151;
+}
+
+.diary-detail-content {
+  margin: 8px 0;
+  line-height: 1.8;
+  color: #4b5563;
+  white-space: pre-wrap; /* 줄바꿈 유지 */
+}
+/* 내용 입력창 */
+.diary-textarea {
+  min-height: 180px;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.6;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  resize: vertical;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.diary-textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
