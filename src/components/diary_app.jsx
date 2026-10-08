@@ -1,10 +1,24 @@
-import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  addDiary as addDiaryAction,
+  deleteDiary as deleteDiaryAction,
+  updateDiary as updateDiaryAction,
+} from "../store/diarySlice";
+
 import "./diary_app.css"
+import { useState, useEffect } from "react";
 
 const Diary_app = ({ setLoggedInUser, loggedInUser }) => {
     
     //삭제, 내용 수정하기
+    const diarys = useSelector((state) => state.diary.items); //sotre에 있는 상태 읽기
+    const dispatch = useDispatch(); //상태를 변경하는 액션보내기
+
+     const [formdiary, setFormDiary]=useState({title:"", content:"", date:""}); //입력하는 창
+    const [seldiary, setSelDiary]=useState(null); //선택된 Diary
+    const [today, setToday]= useState("")
+    const [page, setPage] = useState("write");
 
     const navigate = useNavigate()
     
@@ -15,13 +29,6 @@ const Diary_app = ({ setLoggedInUser, loggedInUser }) => {
     }, [loggedInUser, navigate]);
 
 
-
-    const [diarys, setDiarys] =useState(()=> {const saveDiarys = localStorage.getItem("diarys");
-                            return saveDiarys ? JSON.parse(saveDiarys) : ([{title:"React공부하기", content:"1일차", date:"2026-10-04"},])})
-    const [formdiary, setFormDiary]=useState({title:"", content:"", date:""}); //입력하는 창
-    const [seldiary, setSelDiary]=useState(null); //선택된 Diary
-    const [today, setToday]= useState("")
-    const [page, setPage] = useState("write");
     
     useEffect(()=>{
                 localStorage.setItem("diarys", JSON.stringify(diarys)) 
@@ -38,18 +45,18 @@ const Diary_app = ({ setLoggedInUser, loggedInUser }) => {
 
     const addDiary=(e)=>{
         e.preventDefault()
-        if(formdiary.title && formdiary.content){
-            const newDiary= {...formdiary, date: today} //오늘의 날짜로 새다이어리에 추가
-            setDiarys([...diarys, newDiary])
-            alert("저장되었습니다")
-            setPage("list")
+        if (!formdiary.title.trim() || !formdiary.content.trim()){
+            return;
         }
-        setFormDiary({title:"", content:""})
-    }
-    const DeleteDiary=(diaryDate)=>{
-        setDiarys(diarys.filter((diary)=> diary.date !== diaryDate))
-    }
 
+        dispatch(addDiaryAction({...formdiary, id: crypto.randomUUID(), date:today
+        }))
+        setFormDiary({title:"", content:""})
+        setPage("list") //추가한 다음에 목록보여주기
+    }
+    const DeleteDiary=(diaryId)=>{
+        dispatch(deleteDiaryAction(diaryId));
+    };
 
     const SelectDiary=(diary)=>{//수정버튼 누를떄 수정모드로 바꾸고 선택된 다이어리전달
         setPage("Modi")
@@ -57,18 +64,11 @@ const Diary_app = ({ setLoggedInUser, loggedInUser }) => {
         
 
     }
-    const ModiDiary=(e)=>{
-        e.preventDefault()
-        if (page==="Modi"){
-         // 수정모드안에서 수정함수 불러내기
-        
-        setDiarys(
-        diarys.map((i) =>
-            i.date === seldiary.date
-            ? { ...i, title: seldiary.title, content: seldiary.content }: i)
-        )
-    }
-}
+    const ModiDiary = (e) => {
+        e.preventDefault();
+        dispatch(updateDiaryAction(seldiary));
+        setPage("list"); //수정한 다음에 목록 보여주기
+        };
 
     const DetailDiary=(i)=>{
         setSelDiary(i)
@@ -115,14 +115,14 @@ const Diary_app = ({ setLoggedInUser, loggedInUser }) => {
 
             <ul className="diary-list">
             {diarys.map((diary) => (
-                <li key={diary.date} className="diary-item">
+                <li key={diary.id} className="diary-item">
                 <div className="diary-item-info" onClick={() => DetailDiary(diary)}>
                     <span className="diary-item-title">{diary.title}</span>
                     <span className="diary-item-date">{diary.date}</span>
                 </div>
                 <div className="diary-item-actions">
                     <button className="btn-small" onClick={() => SelectDiary(diary)}>수정</button>
-                    <button className="btn-small btn-danger" onClick={() => DeleteDiary(diary.date)}>삭제</button>
+                    <button className="btn-small btn-danger" onClick={() => DeleteDiary(diary.id)}>삭제</button>
                 </div>
                 </li>
             ))}
