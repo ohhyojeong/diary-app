@@ -11,6 +11,19 @@
   max-width: 560px;
 }
 
+.welcome-text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4b5563;
+}
+
+.diary-date {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
 /* 목록 */
 .diary-list {
   list-style: none;

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import './login.css'
+import '../style/login.css'
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../store/authSlice';
 
-const Login = ({ setLoggedInUser }) => {
+const Login = () => {
     //회원정보 수정하기
     const navigate = useNavigate(); // 이제 navigate()사용가능
-
+    const dispatch= useDispatch()
     const [users,setUsers] =useState(()=> {const savedUsers = localStorage.getItem("users");
                         return savedUsers ? JSON.parse(savedUsers) : [{id:"" , username:"ohj", password:"5122"}]
     })
@@ -15,6 +17,7 @@ const Login = ({ setLoggedInUser }) => {
 
     const [registerchoice, setRegisterChoice]=useState(false) //이용자 등록을 누를 떄
 
+    
     const addUser =(e)=>{
         e.preventDefault()
         if (users.some((user)=> form.username===user.username)){ //username을 통해 이미있는 회원인지 판별
@@ -37,13 +40,13 @@ const Login = ({ setLoggedInUser }) => {
         },[users])
 
     const userMatch=(e)=>{ //로그인Form 유저가 users안에 있을때 
+        
         e.preventDefault()
         const matchUser=users.find((user) => user.username === loginForm.username && user.password === loginForm.password)
         
         if (matchUser){ //배열.include(찾고싶은 값)
             alert("로그인 완료")
-            setLoggedInUser(matchUser)
-            SetLoginForm({username:"", password:""})
+            dispatch(loginSuccess({id:matchUser.id, username: matchUser.username,}))
             navigate("/dirary_app");
 
         }
